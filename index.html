@@ -126,36 +126,17 @@ const noBtn = document.getElementById('no');
 const yesBtn = document.getElementById('yes');
 const yay = document.getElementById('yay');
 
-noBtn.addEventListener('mouseover', () => {
-  const buttonHeight = noBtn.offsetHeight;
-  const buttonWidth = noBtn.offsetWidth;
-
-  // Get poster image and Yes button bounding boxes
-  const posterRect = document.querySelector('img').getBoundingClientRect();
-  const yesRect = yesBtn.getBoundingClientRect();
-
-  // Define safe area: below poster, above bottom of viewport, avoiding Yes button
-  const safeTop = posterRect.bottom + 20; // 20px margin below poster
-  const safeBottom = window.innerHeight - buttonHeight - 20; // bottom padding
-
-  // Horizontal safe area: full width minus button width
-  const safeLeft = 0 + 20; // left padding
-  const safeRight = window.innerWidth - buttonWidth - 20; // right padding
-
-  // Random position within safe area
-  let x = safeLeft + Math.random() * (safeRight - safeLeft);
-  let y = safeTop + Math.random() * (safeBottom - safeTop);
-
-  // Avoid overlapping Yes button vertically
-  if (y + buttonHeight > yesRect.top && y < yesRect.bottom) {
-    y = yesRect.bottom + 20; // push below Yes button
-    if (y > safeBottom) y = safeBottom; // make sure still in viewport
-  }
-
-  noBtn.style.left = x + 'px';
-  noBtn.style.top = y + 'px';
+noBtn.addEventListener('mouseenter', () => {
+  // Move left or right depending on current position
+  let currentLeft = noBtn.offsetLeft;
+  const moveBy = 100; // pixels
+  const maxRight = window.innerWidth - noBtn.offsetWidth - 20;
+  let newLeft = currentLeft + moveBy;
+  if (newLeft > maxRight) newLeft = 20; // wrap around
+  noBtn.style.transition = 'left 0.3s';
+  noBtn.style.left = newLeft + 'px';
 });
-
+  
 // Celebration on "Yes"
 yesBtn.addEventListener('click', () => {
   document.querySelector('img').style.display = 'none';
