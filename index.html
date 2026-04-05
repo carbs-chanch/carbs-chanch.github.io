@@ -39,7 +39,7 @@
   }
 
   #yes {
-    background-color: #544515;
+    background-color: #7e7437;
     color: white;
   }
 
@@ -55,7 +55,7 @@
     margin-top: 50px;
     color: #a1996b;
     animation: pop 0.5s ease forwards;
-    text-shadow: 2px 2px #ff69b4, 0 0 15px #ff1493, 0 0 30px #ff69b4;
+    text-shadow: 2px 2px #000000, 0 0 15px #000000, 0 0 30px #000000;
   }
 
   @keyframes pop {
@@ -116,9 +116,9 @@
 </div>
 
 <div id="yay">
-  HOORAY I WIN GUYS 😎
-  (i'm paying for ur ticket btw)
-  i love you <3
+  <p>HOORAY I WIN GUYS 😎</p>
+  <p>(i'm paying for ur ticket btw)</p>
+  <p>i love you &lt;3</p>
 </div>
 
 <script>
@@ -126,10 +126,20 @@ const noBtn = document.getElementById('no');
 const yesBtn = document.getElementById('yes');
 const yay = document.getElementById('yay');
 
-// Dodge the "No" button
 noBtn.addEventListener('mouseover', () => {
-  const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-  const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+  const buttonHeight = noBtn.offsetHeight;
+  const buttonWidth = noBtn.offsetWidth;
+
+  // Safe vertical area: below poster, above bottom of window
+  const posterHeight = document.querySelector('img').offsetHeight + 50; // poster + margin
+  const safeHeight = window.innerHeight - buttonHeight - 20; // 20px padding at bottom
+
+  // Safe horizontal area: whole width minus button width
+  const safeWidth = window.innerWidth - buttonWidth - 20; // 20px padding
+
+  const x = Math.random() * safeWidth;
+  const y = posterHeight + Math.random() * (safeHeight - posterHeight);
+
   noBtn.style.left = x + 'px';
   noBtn.style.top = y + 'px';
 });
