@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promposal 💖</title>
+<style>
+  body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    text-align: center;
+    background: #fff0f6;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  img {
+    max-width: 80%;
+    margin-top: 50px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(255,0,150,0.3);
+  }
+
+  .buttons {
+    margin-top: 40px;
+    position: relative;
+    height: 100px;
+  }
+
+  button {
+    font-size: 1.5rem;
+    padding: 15px 30px;
+    margin: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 12px;
+    transition: all 0.2s;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  }
+
+  #yes {
+    background-color: #ff69b4;
+    color: white;
+  }
+
+  #no {
+    background-color: #ffcccc;
+    color: #900;
+    position: absolute;
+  }
+
+  #yay {
+    display: none;
+    font-size: 2.5rem;
+    margin-top: 50px;
+    color: #ff1493;
+    animation: pop 0.5s ease forwards;
+    text-shadow: 2px 2px #ff69b4, 0 0 15px #ff1493, 0 0 30px #ff69b4;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: red;
+    transform: rotate(-45deg);
+    animation: float 3s linear infinite;
+  }
+
+  .heart::before,
+  .heart::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 50%;
+  }
+
+  .heart::before { top: -10px; left: 0; }
+  .heart::after { left: 10px; top: 0; }
+
+  @keyframes float {
+    0% { transform: translateY(0) rotate(-45deg); opacity: 1; }
+    100% { transform: translateY(-600px) rotate(-45deg); opacity: 0; }
+  }
+
+  .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    opacity: 0.7;
+    transform: rotate(45deg);
+    animation: fall 3s linear forwards;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(600px) rotate(360deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<img src="poster.jpg" alt="Promposal Poster">
+
+<div class="buttons">
+  <button id="yes">Yes!</button>
+  <button id="no">No!</button>
+</div>
+
+<div id="yay">
+  🎉 Hooray! You said YES! 🎉
+</div>
+
+<script>
+const noBtn = document.getElementById('no');
+const yesBtn = document.getElementById('yes');
+const yay = document.getElementById('yay');
+
+// Dodge the "No" button
+noBtn.addEventListener('mouseover', () => {
+  const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+  const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+  noBtn.style.left = x + 'px';
+  noBtn.style.top = y + 'px';
+});
+
+// Celebration on "Yes"
+yesBtn.addEventListener('click', () => {
+  document.querySelector('img').style.display = 'none';
+  document.querySelector('.buttons').style.display = 'none';
+  yay.style.display = 'block';
+  createHearts(30);
+  createConfetti(50);
+});
+
+// Floating hearts
+function createHearts(num) {
+  for (let i = 0; i < num; i++) {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.style.left = Math.random() * window.innerWidth + 'px';
+    heart.style.animationDuration = (2 + Math.random() * 3) + 's';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
+  }
+}
+
+// Confetti
+function createConfetti(num) {
+  const colors = ['#ff69b4', '#ff1493', '#ffb6c1', '#ffc0cb', '#ff00ff'];
+  for (let i = 0; i < num; i++) {
+    const confetti = document.createElement('div');
+    confetti.classList.add('confetti');
+    confetti.style.left = Math.random() * window.innerWidth + 'px';
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.animationDuration = (2 + Math.random() * 3) + 's';
+    document.body.appendChild(confetti);
+    setTimeout(() => confetti.remove(), 4000);
+  }
+}
+</script>
+
+</body>
+</html>
