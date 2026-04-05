@@ -130,15 +130,27 @@ noBtn.addEventListener('mouseover', () => {
   const buttonHeight = noBtn.offsetHeight;
   const buttonWidth = noBtn.offsetWidth;
 
-  // Safe vertical area: below poster, above bottom of window
-  const posterHeight = document.querySelector('img').offsetHeight + 50; // poster + margin
-  const safeHeight = window.innerHeight - buttonHeight - 20; // 20px padding at bottom
+  // Get poster image and Yes button bounding boxes
+  const posterRect = document.querySelector('img').getBoundingClientRect();
+  const yesRect = yesBtn.getBoundingClientRect();
 
-  // Safe horizontal area: whole width minus button width
-  const safeWidth = window.innerWidth - buttonWidth - 20; // 20px padding
+  // Define safe area: below poster, above bottom of viewport, avoiding Yes button
+  const safeTop = posterRect.bottom + 20; // 20px margin below poster
+  const safeBottom = window.innerHeight - buttonHeight - 20; // bottom padding
 
-  const x = Math.random() * safeWidth;
-  const y = posterHeight + Math.random() * (safeHeight - posterHeight);
+  // Horizontal safe area: full width minus button width
+  const safeLeft = 0 + 20; // left padding
+  const safeRight = window.innerWidth - buttonWidth - 20; // right padding
+
+  // Random position within safe area
+  let x = safeLeft + Math.random() * (safeRight - safeLeft);
+  let y = safeTop + Math.random() * (safeBottom - safeTop);
+
+  // Avoid overlapping Yes button vertically
+  if (y + buttonHeight > yesRect.top && y < yesRect.bottom) {
+    y = yesRect.bottom + 20; // push below Yes button
+    if (y > safeBottom) y = safeBottom; // make sure still in viewport
+  }
 
   noBtn.style.left = x + 'px';
   noBtn.style.top = y + 'px';
@@ -161,7 +173,7 @@ function createHearts(num) {
     heart.style.left = Math.random() * window.innerWidth + 'px';
     heart.style.animationDuration = (2 + Math.random() * 3) + 's';
     document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 5000);
+    setTimeout(() => heart.remove(), 100000);
   }
 }
 
