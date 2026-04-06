@@ -128,17 +128,15 @@ const yesBtn = document.getElementById('yes');
 const yay = document.getElementById('yay');
 
 noBtn.addEventListener('mouseenter', () => {
-  // Move left or right depending on current position
   let currentLeft = noBtn.offsetLeft;
-  const moveBy = 100; // pixels
+  const moveBy = 100;
   const maxRight = window.innerWidth - noBtn.offsetWidth - 20;
   let newLeft = currentLeft + moveBy;
-  if (newLeft > maxRight) newLeft = 20; // wrap around
+  if (newLeft > maxRight) newLeft = 20;
   noBtn.style.transition = 'left 0.3s';
   noBtn.style.left = newLeft + 'px';
 });
   
-// Celebration on "Yes"
 yesBtn.addEventListener('click', () => {
   document.querySelector('img').style.display = 'none';
   document.querySelector('.buttons').style.display = 'none';
@@ -147,7 +145,6 @@ yesBtn.addEventListener('click', () => {
   createConfetti(50);
 });
 
-// Floating hearts
 function createHearts(num) {
   for (let i = 0; i < num; i++) {
     const heart = document.createElement('div');
@@ -159,7 +156,6 @@ function createHearts(num) {
   }
 }
 
-// Confetti
 function createConfetti(num) {
   const colors = ['#ff69b4', '#ff1493', '#ffb6c1', '#ffc0cb', '#ff00ff'];
   for (let i = 0; i < num; i++) {
